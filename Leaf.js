@@ -3,7 +3,7 @@ class Leaf {
     constructor(x, y) {
 
         this.radius = random(10, 20);
-        this.colour = lerpColour("#5E510E", "#504A19", random());
+        this.colour = lerpColour("#5E510E", "#423C03", random());
         this.rotation = random(360);
         this.rotationDirection = random(-1, 1);
         this.thickness = random(this.radius/6, this.radius/2);

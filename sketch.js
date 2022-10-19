@@ -5,11 +5,15 @@ let waterAmount = 450;
 let drainSpeed = 0.1;
 let drinking = true;
 
-let leafCircle = [];
-let leafCircle2 = [];
+let dateString = "";
+let moonData;
+
+let zodiac;
 
 function preload() {
+
     cupImage = loadImage("./cup.png");
+    getDateString();
 }
 
 function setup() {
@@ -20,39 +24,9 @@ function setup() {
     imageMode(CENTER);
     rectMode(CENTER);
     angleMode(DEGREES);
+    textAlign(CENTER, CENTER);
     noStroke();
-
-    // for (let i = 0; i < 200; i++) {
-
-    //     let x = random(width/2 - 700, width/2 + 700);
-    //     let y = random(height/2 - 700, height/2 + 700);
-    //     let distance = dist(x, y, width/2, height/2);
-
-    //     while (distance > 650 || distance < 500) {
-
-    //         x = random(width/2 - 700, width/2 + 700);
-    //         y = random(height/2 - 700, height/2 + 700);
-    //         distance = dist(x, y, width/2, height/2);
-    //     }
-
-    //     leafCircle.push(new Leaf(x, y));
-    // }
-
-    // for (let i = 0; i < 300; i++) {
-
-    //     let x = random(width/2 - 700, width/2 + 700);
-    //     let y = random(height/2 - 700, height/2 + 700);
-    //     let distance = dist(x, y, width/2, height/2);
-
-    //     while (distance > 600 || distance < 550) {
-
-    //         x = random(width/2 - 700, width/2 + 700);
-    //         y = random(height/2 - 700, height/2 + 700);
-    //         distance = dist(x, y, width/2, height/2);
-    //     }
-
-    //     leafCircle2.push(new Leaf(x, y));
-    // }
+    textFont("Alegreya SC");
 }
 
 function draw() {
@@ -64,14 +38,7 @@ function draw() {
     updatePixels();
     drawCup();
     drawWater();
-
-    // for (let i = 0; i < leafCircle.length; i++) {
-    //     leafCircle[i].display();
-    // }
-
-    // for (let i = 0; i < leafCircle2.length; i++) {
-    //     leafCircle2[i].display();
-    // }
+    displayText();
 
     for (let i = 0; i < leaves.length; i++) {
         leaves[i].update();
@@ -93,7 +60,6 @@ function draw() {
     if (teaStrength < 180) {
         teaStrength += 0.1;
     }
-
 
     if (teaStrength > 150 && stillDrinking > 10 && waterAmount > 230) {
         waterAmount -= drainSpeed;
@@ -156,4 +122,36 @@ function createBackground() {
 		}
 	}
 	updatePixels();
+}
+
+function displayText() {
+
+    push();
+    translate(width/2, height/2 - 340);
+
+    fill("#544B60");
+    textSize(30);
+    text(dateString, 0, 0);
+    pop();
+}
+
+function getDateString() {
+
+    let string = "";
+    let date = new Date();
+    string += date.toLocaleString('default', {weekday: 'long'});
+    string += " " + date.getDay();
+    string += " " + date.toLocaleString('default', {month: 'long'});
+    string += " " + date.getFullYear();
+    string += "\n";
+
+    dateString = string;
+
+    moon.get().then(value => value.json().then(result => finishDateString(result)));
+}
+
+function finishDateString(result) {
+
+    dateString += result.phase;
+    dateString += " in " + result.zodiac;
 }
