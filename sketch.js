@@ -140,7 +140,7 @@ function getDateString() {
     let string = "";
     let date = new Date();
     string += date.toLocaleString('default', {weekday: 'long'});
-    string += " " + date.getDay();
+    string += " " + date.getDate();
     string += " " + date.toLocaleString('default', {month: 'long'});
     string += " " + date.getFullYear();
     string += "\n";
