@@ -6,14 +6,13 @@ let drainSpeed = 0.1;
 let drinking = true;
 
 let dateString = "";
-let moonData;
 
-let zodiac;
+let moonphase;
 
 function preload() {
 
     cupImage = loadImage("./cup.png");
-    getDateString();
+    moonphase = loadJSON("https://moonphases.co.uk/service/getMoonDetails.php");
 }
 
 function setup() {
@@ -27,6 +26,8 @@ function setup() {
     textAlign(CENTER, CENTER);
     noStroke();
     textFont("Alegreya SC");
+
+    getDateString();
 }
 
 function draw() {
@@ -145,13 +146,8 @@ function getDateString() {
     string += " " + date.getFullYear();
     string += "\n";
 
+    string += moonphase.days[0].phase_name;
+    string += " in " + moonphase.moonsign;
+
     dateString = string;
-
-    moon.get().then(value => value.json().then(result => finishDateString(result)));
-}
-
-function finishDateString(result) {
-
-    dateString += result.phase;
-    dateString += " in " + result.zodiac;
 }
